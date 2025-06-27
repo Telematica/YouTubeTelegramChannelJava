@@ -1,23 +1,18 @@
-package org.telematica.requests;
+package org.telematica.requests.platforms.youtube;
 
 import org.telematica.constants.YouTubeConstants;
 
-import java.net.ConnectException;
 import java.net.URI;
 import java.net.http.HttpClient;
+import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.concurrent.CompletableFuture;
 
-public class YouTubeChannelLiveStreamRequest {
+public class LiveStreamPageRequest {
     private static String channelId;
-
-    public static CompletableFuture<HttpResponse<String>> request() throws ConnectException {
-        return request(channelId);
-    }
-
     public static CompletableFuture<HttpResponse<String>> request(String channelId) {
-        YouTubeChannelLiveStreamRequest.channelId = channelId;
+        LiveStreamPageRequest.channelId = channelId;
         CompletableFuture<HttpResponse<String>> result;
         String channelUrl = channelId.startsWith("@")
                 ? YouTubeConstants.YOUTUBE_URL + "/" + channelId + "/live"

@@ -4,13 +4,9 @@ import java.io.File;  // Import the File class
 import java.io.IOException;  // Import the IOException class to handle errors
 
 public class CreateFile {
-    public CreateFile() {
-
-    }
-
     public static void create() {
         try {
-            File myObj = new File("filename.txt");
+            File myObj = new File("/Users/dealersocket/Downloads/filename.txt");
             if (myObj.createNewFile()) {
                 System.out.println("File created: " + myObj.getName());
             } else {
@@ -18,7 +14,6 @@ public class CreateFile {
             }
         } catch (IOException e) {
             System.out.println("An error occurred.");
-            e.printStackTrace();
         }
     }
 }
