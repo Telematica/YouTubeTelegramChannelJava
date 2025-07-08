@@ -7,10 +7,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class LiveStreamPageRequest {
@@ -21,23 +18,12 @@ public class LiveStreamPageRequest {
                 : YOUTUBE_CHANNEL_URL;
         channelUrl += "/" + channelId + "/live";
         try (HttpClient client = HttpClient.newHttpClient()) {
-            List<String> headerList = new ArrayList<>();
-
-            for (Map.Entry<String, String> entry : YOUTUBE_REQUEST_HEADERS.entrySet()) {
-                headerList.add(entry.getKey());
-                headerList.add(entry.getValue());
-            }
-
-            // Convert List<String> to String[]
-            String[] headerArray = headerList.toArray(new String[0]);
-
+            String[] headerArray = org.telematica.utils.Map.MapToArray(YOUTUBE_REQUEST_HEADERS);
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(channelUrl))
                     .version(HttpClient.Version.HTTP_2)
                     .GET()
-                    .headers(
-                            headerArray
-                    )
+                    .headers(headerArray)
                     .build();
 
             result = client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
