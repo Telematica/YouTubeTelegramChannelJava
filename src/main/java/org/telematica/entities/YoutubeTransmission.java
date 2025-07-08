@@ -1,5 +1,10 @@
 package org.telematica.entities;
 
+/**
+ * YouTube Transmission Data Object
+ * Please see the {@link com.baeldung.javadoc.Person} class for true identity
+ * @author @telematica
+ */
 public class YoutubeTransmission {
     public YoutubeTransmission() {}
     private String id = "";

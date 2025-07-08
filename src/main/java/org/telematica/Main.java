@@ -1,16 +1,32 @@
 package org.telematica;
 
+import java.awt.*;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 import org.telematica.constants.AppConstants;
 import org.telematica.entities.YoutubeTransmission;
 import org.telematica.requests.platforms.youtube.LiveStreamPageRequest;
+import java.util.LinkedList;
+import java.util.ArrayList;
+
+import static java.util.Map.entry;
+import static org.telematica.constants.YouTubeConstants.YOUTUBE_REQUEST_HEADERS;
+
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        YoutubeTransmission live = new YoutubeTransmission();
 
+    public static Integer fib(Integer steps) {
+        if (steps <= 2) return 1;
+
+        return fib(steps-2) + fib(steps-1);
+    }
+    public static void misc() {
+        YoutubeTransmission live = new YoutubeTransmission();
         CreateFile.create();
 
         org.json.JSONObject jo = new JSONObject();
@@ -31,7 +47,7 @@ public class Main {
             // System.out.format("%s=%s%n",envName,env.get(envName));
         }
 
-        String a = LiveStreamPageRequest.request("@telematicas").join().toString();
+        //String a = LiveStreamPageRequest.request("@telematicas").join().toString();
 
         int[] numbers = new int[5];
         int[] numbers2 = {1,2,3,4,5};
@@ -41,6 +57,21 @@ public class Main {
         System.out.println(AppConstants.API_TOKEN);
         System.out.println(AppConstants.CONSOLE.ALREADY_NOTIFIED.toString());
         System.out.println(AppConstants.Response.CHANNEL_ERROR.getDescription());
-        System.out.println(a);
+        System.out.println(YOUTUBE_REQUEST_HEADERS.keySet().stream()
+                .map(key -> key + "=" + YOUTUBE_REQUEST_HEADERS.get(key))
+                .collect(Collectors.joining(", ", "{", "}")));
+        System.out.println(fib(8).toString());
+
+        ArrayList<Integer> chars = new ArrayList<Integer>();
+        chars.add(1);
+        chars.add(2);
+        System.out.println(chars.size());
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Input your name");
+        String name = scan.nextLine().trim();
+        System.out.println(name);
+    }
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        System.out.println(LiveStreamPageRequest.request("@telematicas"));
     }
 }
