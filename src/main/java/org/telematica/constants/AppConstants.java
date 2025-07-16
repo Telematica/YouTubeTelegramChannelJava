@@ -1,7 +1,7 @@
 package org.telematica.constants;
 
 public interface AppConstants {
-    String API_TOKEN = ""; // process.env.API_TOKEN
+    String API_TOKEN = System.getenv().getOrDefault("API_TOKEN", "");
     String TELEGRAM_API_URL = "https://api.telegram.org/bot"; //
     String TELEGRAM_CHANNEL_OR_GROUP = ""; // process.env.TELEGRAM_CHANNEL_OR_GROUP
     String TELEGRAM_CHANNEL_TIKTOK = ""; // process.env.TELEGRAM_TIKTOK_CHANNEL

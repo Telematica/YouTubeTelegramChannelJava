@@ -1,16 +1,16 @@
 package org.telematica.scrappers.platforms;
 
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.telematica.requests.platforms.youtube.LiveStreamPageRequest;
-
-import java.util.Objects;
-import java.util.concurrent.ExecutionException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class YouTubeLiveChannelScrapper {
     public static Object[] scrap(String channelId) {
@@ -48,19 +48,18 @@ public class YouTubeLiveChannelScrapper {
                     && Objects.equals(playerResponse.getJSONObject("playabilityStatus").get("status"), "OK");
 
             if (!live) {
-                String scheduledStartTime =
-                        playerResponse.has("playabilityStatus") &&
+                String scheduledStartTime = playerResponse.has("playabilityStatus") &&
                         playerResponse.getJSONObject("playabilityStatus").get("status") == "LIVE_STREAM_OFFLINE"
                                 ? playerResponse
-                                    .getJSONObject("playabilityStatus")
-                                    .getJSONObject("liveStreamability")
-                                    .getJSONObject("liveStreamabilityRenderer")
-                                    .getJSONObject("offlineSlate")
-                                    .getJSONObject("liveStreamOfflineSlateRenderer")
-                                    .get("scheduledStartTime")
-                                    .toString()
+                                        .getJSONObject("playabilityStatus")
+                                        .getJSONObject("liveStreamability")
+                                        .getJSONObject("liveStreamabilityRenderer")
+                                        .getJSONObject("offlineSlate")
+                                        .getJSONObject("liveStreamOfflineSlateRenderer")
+                                        .get("scheduledStartTime")
+                                        .toString()
                                 : "0";
-                return new Object[]{channelId, false, scheduledStartTime};
+                return new Object[] { channelId, false, scheduledStartTime };
             }
 
             String liveSince = youtubeData
@@ -91,7 +90,7 @@ public class YouTubeLiveChannelScrapper {
                     .get("text")
                     .toString();
 
-            return new Object[]{channelId, true, liveSince, title, vid, viewCount};
+            return new Object[] { channelId, true, liveSince, title, vid, viewCount };
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
