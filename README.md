@@ -1,8 +1,6 @@
-# YouTubeTelegramChannelJava
-YouTube Telegram Channel Java
+# YouTubeTelegramChannelJava - YouTube Telegram Channel Java
 
-
-### Interview Question Topics
+## Interview Question Topics
 
 - Java Certifications 
   - OCA
@@ -24,3 +22,8 @@ YouTube Telegram Channel Java
   - JBoss
   - Jetty
   - Rational IBM
+
+## Reference links
+- https://stackoverflow.com/questions/8484921/how-to-convert-string-to-dom-document-object-in-java
+- https://www.baeldung.com/java-xerces-dom-parsing
+- https://www.baeldung.com/java-9-http-client

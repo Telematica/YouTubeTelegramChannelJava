@@ -18,7 +18,7 @@ public class LiveStreamPageRequest {
                 : YOUTUBE_CHANNEL_URL;
         channelUrl += "/" + channelId + "/live";
         try (HttpClient client = HttpClient.newHttpClient()) {
-            String[] headerArray = org.telematica.utils.Map.MapToArray(YOUTUBE_REQUEST_HEADERS);
+            String[] headerArray = org.telematica.utils.Map.toArray(YOUTUBE_REQUEST_HEADERS);
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(channelUrl))
                     .version(HttpClient.Version.HTTP_2)
