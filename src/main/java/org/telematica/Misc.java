@@ -20,6 +20,7 @@ public class Misc {
     }
 
     public static void misc() {
+        var x = 1;
         CreateFile.create();
 
         org.json.JSONObject jo = new JSONObject();

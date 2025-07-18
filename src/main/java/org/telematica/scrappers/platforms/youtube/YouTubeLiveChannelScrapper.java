@@ -1,4 +1,4 @@
-package org.telematica.scrappers.platforms;
+package org.telematica.scrappers.platforms.youtube;
 
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;

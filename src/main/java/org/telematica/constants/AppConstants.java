@@ -1,10 +1,10 @@
 package org.telematica.constants;
 
 public interface AppConstants {
-    String API_TOKEN = System.getenv().getOrDefault("API_TOKEN", "");
-    String TELEGRAM_API_URL = "https://api.telegram.org/bot"; //
-    String TELEGRAM_CHANNEL_OR_GROUP = ""; // process.env.TELEGRAM_CHANNEL_OR_GROUP
-    String TELEGRAM_CHANNEL_TIKTOK = ""; // process.env.TELEGRAM_TIKTOK_CHANNEL
+    final static String API_TOKEN = System.getenv().getOrDefault("JAVA_TELEGRAM_API_KEY", "");
+    final static String TELEGRAM_API_URL = "https://api.telegram.org/bot"; //
+    final static String TELEGRAM_CHANNEL_OR_GROUP = System.getenv().getOrDefault("JAVA_TELEGRAM_CHANNEL_OR_GROUP", "");
+    final static String TELEGRAM_CHANNEL_TIKTOK = System.getenv().getOrDefault("JAVA_TELEGRAM_TIKTOK_CHANNEL", "");
     public static enum CONSOLE {
         ALREADY_NOTIFIED,
         NOTIFIED,

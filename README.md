@@ -27,3 +27,4 @@
 - https://stackoverflow.com/questions/8484921/how-to-convert-string-to-dom-document-object-in-java
 - https://www.baeldung.com/java-xerces-dom-parsing
 - https://www.baeldung.com/java-9-http-client
+- https://www.baeldung.com/java-url-encoding-decoding
