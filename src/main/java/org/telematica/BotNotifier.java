@@ -9,9 +9,16 @@ import java.util.Map;
 
 public class BotNotifier {
     public static void execute() throws SQLException {
-        Database.connect();
-        BotNotifier.youtubeBatch();
-        BotNotifier.tiktokBatch();
+        try {
+            Database.connect();
+            Database.connection.setAutoCommit(false);
+            BotNotifier.youtubeBatch();
+            BotNotifier.tiktokBatch();
+            Database.connection.commit();
+        } catch (RuntimeException e) {
+            Database.connection.rollback();
+            throw new RuntimeException(e);
+        }
         Database.connection.close();
     }
 
