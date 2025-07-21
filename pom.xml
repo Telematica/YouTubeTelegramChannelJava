@@ -36,6 +36,13 @@
             <artifactId>guava</artifactId>
             <version>33.4.8-jre</version>
         </dependency>
+
+            <dependency>
+                <groupId>org.xerial</groupId>
+                <artifactId>sqlite-jdbc</artifactId>
+                <version>3.50.2.0</version>
+            </dependency>
+
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -64,6 +71,15 @@
                             <mainClass>org.telematica.Main</mainClass>
                         </manifest>
                     </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.graalvm.buildtools</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+                <configuration>
+                    <buildArgs>
+                        <buildArg>-Dorg.sqlite.lib.exportPath=${project.build.directory}</buildArg>
+                    </buildArgs>
                 </configuration>
             </plugin>
         </plugins>

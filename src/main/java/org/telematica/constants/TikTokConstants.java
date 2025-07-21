@@ -4,7 +4,7 @@ import java.util.Map;
 
 import static java.util.Map.entry;
 
-public class TikTokConstants {
+public interface TikTokConstants {
     public final static String TIKTOK_URL = "https://www.tiktok.com";
     public final static Map<String, String> TIKTOK_LIVE_HEADERS = Map.ofEntries(
             entry("authority", "www.tiktok.com"),
