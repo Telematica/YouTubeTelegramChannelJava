@@ -28,3 +28,6 @@
 - https://www.baeldung.com/java-xerces-dom-parsing
 - https://www.baeldung.com/java-9-http-client
 - https://www.baeldung.com/java-url-encoding-decoding
+- https://stackoverflow.com/questions/16725377/unable-to-connect-to-database-no-suitable-driver-found
+- https://stackoverflow.com/questions/69078799/maven-not-including-sqlite-jdbc
+- https://stackoverflow.com/questions/574594/how-can-i-create-an-executable-runnable-jar-with-dependencies-using-maven

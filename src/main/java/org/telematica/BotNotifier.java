@@ -1,11 +1,14 @@
 package org.telematica;
 
+import org.telematica.constants.AppConstants;
 import org.telematica.scrappers.platforms.tiktok.UserChannelScrapper;
 import org.telematica.scrappers.platforms.youtube.LiveStreamPageScrapper;
+import org.telematica.utils.ConsoleMessages;
 
+import javax.xml.crypto.Data;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
-
 
 public class BotNotifier {
     public static void execute() throws SQLException {
@@ -15,7 +18,8 @@ public class BotNotifier {
             BotNotifier.youtubeBatch();
             BotNotifier.tiktokBatch();
             Database.connection.commit();
-        } catch (RuntimeException e) {
+        } catch (RuntimeException | ClassNotFoundException e) {
+            System.out.println(e.getMessage());
             Database.connection.rollback();
             throw new RuntimeException(e);
         }
@@ -34,12 +38,24 @@ public class BotNotifier {
             String id = channel.getKey();
             String channelName = channel.getValue();
             try {
-                var values = LiveStreamPageScrapper.scrap(id);
-                System.out.print(channelName + " : ");
-                for (Object value : values) {
-                    System.out.print(value + " --- ");
+                var ytliveData = LiveStreamPageScrapper.scrap(id);
+                if (ytliveData.length == 3) {
+                    System.out.print(
+                            ConsoleMessages.getMessage(
+                                AppConstants.PLATFORMS.YOUTUBE,
+                                AppConstants.CONSOLE.NOT_LIVE,
+                                ytliveData,
+                                new Object[]{id, channelName},
+                                    java.util.Optional.empty()
+                            ) + "\n"
+                    );
+                } else {
+                    String vid = ytliveData[4].toString();
+                    String video = Database.getYouTubeLiveById(vid);
+                    if (video != null) {
+                        System.out.println(video);
+                    }
                 }
-                System.out.println(" ");
             } catch(Exception e) {
                 System.out.println(e.getMessage());
                 // @todo: log e.getMessage()
