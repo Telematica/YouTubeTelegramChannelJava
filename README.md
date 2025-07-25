@@ -31,3 +31,18 @@
 - https://stackoverflow.com/questions/16725377/unable-to-connect-to-database-no-suitable-driver-found
 - https://stackoverflow.com/questions/69078799/maven-not-including-sqlite-jdbc
 - https://stackoverflow.com/questions/574594/how-can-i-create-an-executable-runnable-jar-with-dependencies-using-maven
+- https://stackoverflow.com/questions/25561377/format-localdatetime-with-timezone-in-java8
+
+## Environment Variables file (.env)
+
+```sh
+export JAVA_TELEGRAM_API_KEY={TELEGRAM BOT API KEY}
+export JAVA_COOOKIE={BROWSER COOKIE}
+export JAVA_TELEGRAM_CHANNEL_OR_GROUP={TELEGRAM CHANNEL OR GROUP FOR NOTIFICATIONS}
+export JAVA_TELEGRAM_TIKTOK_CHANNEL={TELEGRAM CHANNEL OR GROUP FOR NOTIFICATIONS}
+export JAVA_TIKTOK_COOKIE={BROWSER COOKIE}
+export JAVA_SQLITE_DB={SQLITE DB ABSOLUTE PATH}
+```
+
+## @TODOS:
+- Check DB Entries for legacy consistency
