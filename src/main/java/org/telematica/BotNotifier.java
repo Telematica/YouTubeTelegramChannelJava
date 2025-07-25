@@ -55,7 +55,17 @@ public class BotNotifier {
                                 new Object[]{id,channelName},
                                 java.util.Optional.empty()
                         );
-                        Database.createYouTubeLiveEntry(vid, id, "1", title, null, null, null, viewCount, liveSince);
+                        Database.createYouTubeLiveEntry(
+                                vid,
+                                id,
+                                "1",
+                                title,
+                                null,
+                                null,
+                                null,
+                                viewCount.replace(",", ""),
+                                liveSince
+                        );
                         Database.createYouTubeLogEntry("2", id);
                         // @todo: telegramSendMessage
                         /*
