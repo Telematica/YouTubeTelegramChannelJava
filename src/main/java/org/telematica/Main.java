@@ -1,16 +1,19 @@
 package org.telematica;
 
+import org.telematica.utils.Dates;
+import org.telematica.utils.Log;
+
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Main {
-    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RuntimeException {
         try {
+            Log.setUpCustomLogger();
+            System.out.println(Dates.getYearMonthDayString());
             BotNotifier.execute();
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
+            Log.LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
 }

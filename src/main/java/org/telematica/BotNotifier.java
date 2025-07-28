@@ -4,6 +4,7 @@ import org.telematica.constants.AppConstants;
 import org.telematica.scrappers.platforms.tiktok.UserChannelScrapper;
 import org.telematica.scrappers.platforms.youtube.LiveStreamPageScrapper;
 import org.telematica.utils.ConsoleMessages;
+import org.telematica.utils.Log;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -18,16 +19,20 @@ public class BotNotifier {
 
     private static void youtubeBatch() {
         Map<String, String> ytChannels = null;
+
         try {
             ytChannels = Database.getAllYouTubeChannels();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
         String message = "";
+
         for (Map.Entry<String, String> channel : ytChannels.entrySet()) {
             String id = channel.getKey();
             String channelName = channel.getValue();
             String vid = "";
+
             try {
                 var ytliveData = LiveStreamPageScrapper.scrap(id);
 
@@ -97,10 +102,10 @@ public class BotNotifier {
                         new Object[]{id, channelName},
                         e.getMessage().describeConstable()
                 );
-                // @todo: log e.getMessage()
+                Log.LOGGER.warning("YouTube Scrapper error: " + e.getMessage());
             }
             if (!vid.isEmpty()) {
-                System.out.print("Link: " + "https://youtu.be/"+vid + " --- ");
+                System.out.print("Link: " + "https://youtu.be/" + vid + " --- ");
             }
             System.out.println(message);
             System.gc();

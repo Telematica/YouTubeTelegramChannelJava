@@ -1,6 +1,5 @@
 package org.telematica;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;

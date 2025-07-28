@@ -32,6 +32,9 @@
 - https://stackoverflow.com/questions/69078799/maven-not-including-sqlite-jdbc
 - https://stackoverflow.com/questions/574594/how-can-i-create-an-executable-runnable-jar-with-dependencies-using-maven
 - https://stackoverflow.com/questions/25561377/format-localdatetime-with-timezone-in-java8
+- https://www.linkedin.com/feed/update/urn:li:activity:7341535052041699328
+- https://www.linkedin.com/feed/update/urn:li:activity:7342129781443899392/
+- https://www.linkedin.com/feed/update/urn:li:activity:7342517042337509376/
 
 ## Environment Variables file (.env)
 
