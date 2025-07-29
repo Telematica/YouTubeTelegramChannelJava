@@ -35,6 +35,8 @@
 - https://www.linkedin.com/feed/update/urn:li:activity:7341535052041699328
 - https://www.linkedin.com/feed/update/urn:li:activity:7342129781443899392/
 - https://www.linkedin.com/feed/update/urn:li:activity:7342517042337509376/
+- https://dzone.com/articles/java-string-format-examples
+- https://stackoverflow.com/questions/38558720/get-the-target-directory-path-in-maven-java
 
 ## Environment Variables file (.env)
 
@@ -45,6 +47,7 @@ export JAVA_TELEGRAM_CHANNEL_OR_GROUP={TELEGRAM CHANNEL OR GROUP FOR NOTIFICATIO
 export JAVA_TELEGRAM_TIKTOK_CHANNEL={TELEGRAM CHANNEL OR GROUP FOR NOTIFICATIONS}
 export JAVA_TIKTOK_COOKIE={BROWSER COOKIE}
 export JAVA_SQLITE_DB={SQLITE DB ABSOLUTE PATH}
+export JAVA_LOG_PATH={PATH FOR ERROR LOG}
 ```
 
 ## @TODOS:

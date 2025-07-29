@@ -46,16 +46,19 @@ public class Database {
         return results;
     }
 
-    public static Map<String, String> getAllYouTubeChannels() throws SQLException {
+    public static Map<String, String[]> getAllYouTubeChannels() throws SQLException {
         if (connection == null) {
             throw new RuntimeException(Database.NO_CONNECTED_MESSAGE);
         }
         Statement statement = Database.connection.createStatement();
         // statement.setQueryTimeout(30);  // set timeout to 30 sec.
         ResultSet rs = statement.executeQuery("select * from channel");
-        Map<String, String> results = new HashMap<>(Map.of());
+        Map<String, String[]> results = new HashMap<>(Map.of());
         while(rs.next()) {
-            results.put(rs.getString("id"), rs.getString("name"));
+            results.put(
+                    rs.getString("id"),
+                    new String[]{rs.getString("name"), rs.getString("disable_notification")}
+            );
         }
         return results;
     }

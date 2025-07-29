@@ -59,7 +59,7 @@ public class LiveStreamPageScrapper {
                                         .get("scheduledStartTime")
                                         .toString()
                                 : "0";
-                return new Object[] { channelId, false, scheduledStartTime };
+                return new Object[] { channelId, false, null, null, vid, null, scheduledStartTime };
             }
 
             String liveSince = youtubeData
@@ -90,7 +90,7 @@ public class LiveStreamPageScrapper {
                     .get("text")
                     .toString();
 
-            return new Object[] { channelId, true, liveSince, title, vid, viewCount };
+            return new Object[] { channelId, true, liveSince, title, vid, viewCount, null };
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }

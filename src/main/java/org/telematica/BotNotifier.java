@@ -1,6 +1,7 @@
 package org.telematica;
 
 import org.telematica.constants.AppConstants;
+import org.telematica.requests.platforms.telegram.SendMessageRequest;
 import org.telematica.scrappers.platforms.tiktok.UserChannelScrapper;
 import org.telematica.scrappers.platforms.youtube.LiveStreamPageScrapper;
 import org.telematica.utils.ConsoleMessages;
@@ -8,6 +9,8 @@ import org.telematica.utils.Log;
 
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.Objects;
+import java.util.logging.Level;
 
 public class BotNotifier {
     public static void execute() throws SQLException {
@@ -18,7 +21,7 @@ public class BotNotifier {
     }
 
     private static void youtubeBatch() {
-        Map<String, String> ytChannels = null;
+        Map<String, String[]> ytChannels = null;
 
         try {
             ytChannels = Database.getAllYouTubeChannels();
@@ -28,23 +31,26 @@ public class BotNotifier {
 
         String message = "";
 
-        for (Map.Entry<String, String> channel : ytChannels.entrySet()) {
+        for (Map.Entry<String, String[]> channel : ytChannels.entrySet()) {
             String id = channel.getKey();
-            String channelName = channel.getValue();
+            String channelName = channel.getValue()[0];
+            boolean disableNotification = Boolean.parseBoolean(channel.getValue()[1]);
             String vid = "";
 
             try {
                 var ytliveData = LiveStreamPageScrapper.scrap(id);
 
                 // Channel not live
-                if (ytliveData.length == 3) {
+                if (Objects.equals(ytliveData[1], false)) {
                     message = ConsoleMessages.getMessage(
                             AppConstants.PLATFORMS.YOUTUBE,
                             AppConstants.CONSOLE.NOT_LIVE,
-                            ytliveData, new Object[]{id, channelName},
+                            ytliveData,
+                            new Object[]{id, channelName},
                             java.util.Optional.empty()
                     );
-                } else { // Channel Live
+                } else {
+                    // Channel Live
                     vid = ytliveData[4].toString();
                     String video = Database.getYouTubeLiveById(vid);
 
@@ -57,7 +63,7 @@ public class BotNotifier {
                                 AppConstants.PLATFORMS.YOUTUBE,
                                 AppConstants.CONSOLE.NOTIFIED,
                                 ytliveData,
-                                new Object[]{id,channelName},
+                                new Object[]{id, channelName},
                                 java.util.Optional.empty()
                         );
                         Database.createYouTubeLiveEntry(
@@ -72,17 +78,19 @@ public class BotNotifier {
                                 liveSince
                         );
                         Database.createYouTubeLogEntry("2", id);
-                        // @todo: telegramSendMessage
-                        /*
-                        if (false) {
-                            int result = SendMessageRequest.send(
+                        SendMessageRequest.send(
                                     AppConstants.TELEGRAM_CHANNEL_OR_GROUP,
-                                    "Prueba Java Backend.",
-                                    true
-                            );
-                        }
-                        */
-                    } else { // Live is already notified
+                                    ConsoleMessages.getMessage(
+                                            AppConstants.PLATFORMS.YOUTUBE,
+                                            AppConstants.CONSOLE.TELEGRAM_MESSAGE,
+                                            ytliveData,
+                                            new Object[]{id, channelName},
+                                            java.util.Optional.empty()
+                                    ),
+                                disableNotification
+                        );
+                    } else {
+                        // Live is already notified
                         message = ConsoleMessages.getMessage(
                                 AppConstants.PLATFORMS.YOUTUBE,
                                 AppConstants.CONSOLE.ALREADY_NOTIFIED,
@@ -93,16 +101,17 @@ public class BotNotifier {
                         Database.createYouTubeLogEntry("1", id);
                     }
                 }
-            } catch (Exception e) { // Unexpected error happened
+            } catch (Exception e) {
+                // Unexpected error happened
                 System.out.println(e.getMessage());
+                Log.LOGGER.log(Level.FINE, "YouTube Scrapper error: " + e.getMessage(), e);
                 message = ConsoleMessages.getMessage(
                         AppConstants.PLATFORMS.YOUTUBE,
                         AppConstants.CONSOLE.SERVER_ERROR,
-                        new Object[]{},
+                        new Object[]{null,null,null,null,null,null, null},
                         new Object[]{id, channelName},
                         e.getMessage().describeConstable()
                 );
-                Log.LOGGER.warning("YouTube Scrapper error: " + e.getMessage());
             }
             if (!vid.isEmpty()) {
                 System.out.print("Link: " + "https://youtu.be/" + vid + " --- ");
