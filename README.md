@@ -59,3 +59,6 @@ export JAVA_LOG_PATH={PATH FOR ERROR LOG}
 ## @TODOS:
 - Check DB Entries for legacy consistency.
 - Code Coverage.
+- SSH/SCP jar to server.
+- crontab scripts.
+- DB backup.

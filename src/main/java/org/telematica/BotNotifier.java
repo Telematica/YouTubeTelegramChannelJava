@@ -39,31 +39,31 @@ public class BotNotifier {
             String vid = "";
 
             try {
-                Object[] ytliveData = LiveStreamPageScrapper.scrap(id);
+                Object[] liveData = LiveStreamPageScrapper.scrap(id);
 
                 // Channel not live
-                if (Objects.equals(ytliveData[1], false)) {
+                if (Objects.equals(liveData[1], false)) {
                     message = ConsoleMessages.getMessage(
                             AppConstants.PLATFORMS.YOUTUBE,
                             AppConstants.CONSOLE.NOT_LIVE,
-                            ytliveData,
+                            liveData,
                             new Object[]{id, channelName},
                             java.util.Optional.empty()
                     );
                 } else {
                     // Channel Live
-                    vid = ytliveData[4].toString();
+                    vid = liveData[4].toString();
                     String video = Database.getYouTubeLiveById(vid);
 
                     // Live is not yet notified
                     if (video == null) {
-                        String liveSince = ytliveData[2].toString();
-                        String title = ytliveData[3].toString();
-                        String viewCount = ytliveData[5].toString();
+                        String liveSince = liveData[2].toString();
+                        String title = liveData[3].toString();
+                        String viewCount = liveData[5].toString();
                         message = ConsoleMessages.getMessage(
                                 AppConstants.PLATFORMS.YOUTUBE,
                                 AppConstants.CONSOLE.NOTIFIED,
-                                ytliveData,
+                                liveData,
                                 new Object[]{id, channelName},
                                 java.util.Optional.empty()
                         );
@@ -84,7 +84,7 @@ public class BotNotifier {
                                     ConsoleMessages.getMessage(
                                             AppConstants.PLATFORMS.YOUTUBE,
                                             AppConstants.CONSOLE.TELEGRAM_MESSAGE,
-                                            ytliveData,
+                                            liveData,
                                             new Object[]{id, channelName},
                                             java.util.Optional.empty()
                                     ),
@@ -95,7 +95,7 @@ public class BotNotifier {
                         message = ConsoleMessages.getMessage(
                                 AppConstants.PLATFORMS.YOUTUBE,
                                 AppConstants.CONSOLE.ALREADY_NOTIFIED,
-                                ytliveData,
+                                liveData,
                                 new Object[]{id, channelName},
                                 java.util.Optional.empty()
                         );
@@ -122,9 +122,8 @@ public class BotNotifier {
         }
     }
 
-    // @todo: mimic this.youtubeBatch functionality
     private static void tiktokBatch() {
-        Map<String, String> tiktokChannels = null;
+        Map<String, String[]> tiktokChannels = null;
 
         try {
             tiktokChannels = Database.getAllTiktokUsers();
@@ -132,21 +131,96 @@ public class BotNotifier {
             throw new RuntimeException(e);
         }
 
-        for (Map.Entry<String, String> channel : tiktokChannels.entrySet()) {
-            String id = channel.getKey();
-            String channelName = channel.getValue();
-            try {
-                Object[] values = UserChannelScrapper.scrap("@" + id);
-                System.out.print(channelName + " : ");
-                for (Object value : values) {
-                    System.out.print(value + " --- ");
-                }
-                System.out.println(" ");
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                // throw new RuntimeException(e);
-            }
-        }
+        String message = "";
 
+        for (Map.Entry<String, String[]> channel : tiktokChannels.entrySet()) {
+            String id = channel.getKey();
+            String channelName = channel.getValue()[0];
+            String uniqueId = channel.getValue()[1];
+            String roomId = "";
+
+            try {
+                Object[] liveData = UserChannelScrapper.scrap("@" + uniqueId);
+                boolean isLive = (boolean) liveData[2];
+
+                if (!isLive) {
+                    message = ConsoleMessages.getMessage(
+                            AppConstants.PLATFORMS.TIKTOK,
+                            AppConstants.CONSOLE.NOT_LIVE,
+                            liveData,
+                            new Object[]{uniqueId, channelName},
+                            java.util.Optional.empty()
+                    );
+                } else {
+                    // User Live
+                    roomId = liveData[1].toString();
+                    String room = Database.getTikTokLiveById(roomId);
+
+                    // Live is not yet notified
+                    if (room == null) {
+                        String liveSince = liveData[3].toString();
+                        String title = liveData[4].toString();
+                        String viewCount = liveData[5].toString();
+                        message = ConsoleMessages.getMessage(
+                                AppConstants.PLATFORMS.TIKTOK,
+                                AppConstants.CONSOLE.NOTIFIED,
+                                liveData,
+                                new Object[]{uniqueId, channelName},
+                                java.util.Optional.empty()
+                        );
+                        Database.createTikTokLiveEntry(
+                                roomId,
+                                id,
+                                "1",
+                                title,
+                                null,
+                                null,
+                                null,
+                                "0",
+                                liveSince
+                        );
+                        Database.createTikTokLogEntry("2", id);
+                        SendMessageRequest.send(
+                                AppConstants.TELEGRAM_CHANNEL_OR_GROUP,
+                                ConsoleMessages.getMessage(
+                                        AppConstants.PLATFORMS.TIKTOK,
+                                        AppConstants.CONSOLE.TELEGRAM_MESSAGE,
+                                        liveData,
+                                        new Object[]{id, channelName},
+                                        java.util.Optional.empty()
+                                ),
+                                false
+                        );
+                    } else {
+                        // Live is already notified
+                        message = ConsoleMessages.getMessage(
+                                AppConstants.PLATFORMS.TIKTOK,
+                                AppConstants.CONSOLE.ALREADY_NOTIFIED,
+                                liveData,
+                                new Object[]{id, channelName},
+                                java.util.Optional.empty()
+                        );
+                        Database.createTikTokLogEntry("1", id);
+                    }
+                }
+
+            } catch (Exception e) {
+                // Unexpected error happened
+                System.out.println(e.getMessage() + "teeeeest!");
+                Log.LOGGER.log(Level.WARNING, "TikTok Scrapper error: " + e.getMessage(), e);
+                message = ConsoleMessages.getMessage(
+                        AppConstants.PLATFORMS.TIKTOK,
+                        AppConstants.CONSOLE.SERVER_ERROR,
+                        new Object[]{null,null,null,null,null,null, null},
+                        new Object[]{uniqueId, channelName},
+                        Optional.ofNullable(e.getMessage())
+                );
+            }
+            if (!roomId.isEmpty()) {
+                System.out.print("Link: " + "https://tiktok.com/@" + channelName + "/live");
+            }
+            System.out.println(message);
+            System.gc();
+        }
     }
 }

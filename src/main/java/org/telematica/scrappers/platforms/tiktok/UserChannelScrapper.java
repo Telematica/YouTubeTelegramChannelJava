@@ -27,7 +27,7 @@ public class UserChannelScrapper {
                     .isEmpty();
 
             if (!live) {
-                return new Object[]{uniqueId,false};
+                return new Object[]{uniqueId, null, false, null, null, null};
             }
 
             String roomId = tiktokData

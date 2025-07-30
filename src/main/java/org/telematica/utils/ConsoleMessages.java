@@ -39,25 +39,24 @@ public class ConsoleMessages {
                     break;
             };
         } else if (Objects.equals(PLATFORMS.TIKTOK, platform)) {
-            String uniqueId = data[0].toString();
-            String userId = userOrChannel[0].toString();
-            String roomId = userOrChannel[1].toString();
-            String nickname = userOrChannel[2].toString();
+            String nickname = data[1] != null ? data[1].toString() : "";
+            String roomId = userOrChannel[1] != null ? userOrChannel[1].toString() : "";
+            String uniqueId = data[0] != null ? data[0].toString() : "";
             switch (type) {
                 case ALREADY_NOTIFIED:
-                    message = "Esta transmisión ya fue notificada: " + roomId + " - " + uniqueId + " - " + userId;
+                    message = "Esta transmisión ya fue notificada: " + roomId + " - " + uniqueId;
                     break;
                 case NOTIFIED:
-                    message = "¡Transmisión Notificada! : " + roomId + " - " + uniqueId + " - " + userId;
+                    message = "¡Transmisión Notificada! : " + roomId + " - " + uniqueId;
                     break;
                 case NOT_LIVE:
-                    message = "El Canal no está en vivo: " + uniqueId + " - " + userId;
+                    message = "El Canal no está en vivo: " + uniqueId + " - ";
                     break;
                 case SERVER_ERROR:
                     message = "¡Hubo un Error en la Petición al Canal! " + liveRequestError;
                     break;
                 case TELEGRAM_MESSAGE:
-                    message = "🔴 ¡" + nickname + "está transmitiendo En Vivo! \n\n 🔗 Entra a: https://tiktok.com/@" + uniqueId +"\n\n 🕒 Comenzó a transmitir: () \n\n 👥 Espectadores: ${new Intl.NumberFormat('es-MX', { maximumSignificantDigits: 3,}).format(youtubeData.viewCount || 0)";
+                    message = "🔴 ¡" + nickname + "está transmitiendo En Vivo! \n\n 🔗 Entra a: https://tiktok.com/@" + uniqueId +"\n\n 🕒 Comenzó a transmitir: (?) \n\n 👥 Espectadores: (?)";
                     break;
             };
         }

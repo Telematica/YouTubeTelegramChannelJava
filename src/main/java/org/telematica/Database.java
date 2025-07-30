@@ -32,16 +32,19 @@ public class Database {
         Database.connection.close();
     }
 
-    public static Map<String, String> getAllTiktokUsers() throws SQLException {
+    public static Map<String, String[]> getAllTiktokUsers() throws SQLException {
         if (connection == null) {
             throw new RuntimeException(Database.NO_CONNECTED_MESSAGE);
         }
         Statement statement = Database.connection.createStatement();
         // statement.setQueryTimeout(30);  // set timeout to 30 sec.
         ResultSet rs = statement.executeQuery("select * from tiktok_user");
-        Map<String, String> results = new HashMap<>();
+        Map<String, String[]> results = new HashMap<>();
         while(rs.next()) {
-            results.put(rs.getString("unique_id"), rs.getString("nickname"));
+            results.put(
+                    rs.getString("id"),
+                    new String[]{rs.getString("nickname"), rs.getString("unique_id")}
+            );
         }
         return results;
     }
@@ -106,6 +109,55 @@ public class Database {
         String utcDateTimeString = ZonedDateTime.now().format(datetime);
         PreparedStatement statement = Database.connection.prepareStatement(
                 "INSERT INTO log_entry (log_status_id, channel_id, created_at, updated_at) VALUES(?,?,?,?)"
+        );
+        statement.setString(1, fields[0]);
+        statement.setString(2, fields[1]);
+        statement.setString(3, utcDateTimeString);
+        statement.setString(4, utcDateTimeString);
+        statement.executeUpdate();
+    }
+
+    public static String getTikTokLiveById(String liveId) throws SQLException {
+        if (connection == null) {
+            throw new RuntimeException(Database.NO_CONNECTED_MESSAGE);
+        }
+
+        PreparedStatement statement = Database.connection.prepareStatement("SELECT room_id FROM tiktok_live WHERE room_id = ?");
+        statement.setString(1, liveId);
+        return statement.executeQuery().getString("room_id");
+    }
+
+    public static void createTikTokLiveEntry(String... fields) throws SQLException {
+        if (connection == null) {
+            throw new RuntimeException(Database.NO_CONNECTED_MESSAGE);
+        }
+        DateTimeFormatter datetime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS ZZZZZ");
+        String utcDateTimeString = ZonedDateTime.now().format(datetime);
+        PreparedStatement statement = Database.connection.prepareStatement(
+                "INSERT INTO tiktok_live (room_id,tiktok_user_id,live,title,thumbnail,"
+                        + "view_count,live_since,created_at,updated_at) "
+                        + "VALUES(?,?,?,?,?,?,?,?,?)"
+        );
+        statement.setString(1, fields[0]);
+        statement.setString(2, fields[1]);
+        statement.setString(3, fields[2]);
+        statement.setString(4, fields[3]);
+        statement.setString(5, fields[4]);
+        statement.setString(6, fields[5]);
+        statement.setString(7, fields[6]);
+        statement.setString(8, utcDateTimeString);
+        statement.setString(9, utcDateTimeString);
+        statement.executeUpdate();
+    }
+
+    public static void createTikTokLogEntry(String... fields) throws SQLException {
+        if (connection == null) {
+            throw new RuntimeException(Database.NO_CONNECTED_MESSAGE);
+        }
+        DateTimeFormatter datetime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS ZZZZZ");
+        String utcDateTimeString = ZonedDateTime.now().format(datetime);
+        PreparedStatement statement = Database.connection.prepareStatement(
+                "INSERT INTO tiktok_log_entry (log_status_id, tiktok_user_id, created_at, updated_at) VALUES(?,?,?,?)"
         );
         statement.setString(1, fields[0]);
         statement.setString(2, fields[1]);
