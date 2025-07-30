@@ -39,7 +39,7 @@ public class Database {
         Statement statement = Database.connection.createStatement();
         // statement.setQueryTimeout(30);  // set timeout to 30 sec.
         ResultSet rs = statement.executeQuery("select * from tiktok_user");
-        Map<String, String> results = new HashMap<>(Map.of());
+        Map<String, String> results = new HashMap<>();
         while(rs.next()) {
             results.put(rs.getString("unique_id"), rs.getString("nickname"));
         }
@@ -53,7 +53,7 @@ public class Database {
         Statement statement = Database.connection.createStatement();
         // statement.setQueryTimeout(30);  // set timeout to 30 sec.
         ResultSet rs = statement.executeQuery("select * from channel");
-        Map<String, String[]> results = new HashMap<>(Map.of());
+        Map<String, String[]> results = new HashMap<>();
         while(rs.next()) {
             results.put(
                     rs.getString("id"),

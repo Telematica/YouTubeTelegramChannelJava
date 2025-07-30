@@ -37,6 +37,10 @@
 - https://www.linkedin.com/feed/update/urn:li:activity:7342517042337509376/
 - https://dzone.com/articles/java-string-format-examples
 - https://stackoverflow.com/questions/38558720/get-the-target-directory-path-in-maven-java
+- https://stackoverflow.com/questions/6802483/how-to-directly-initialize-a-hashmap-in-a-literal-way
+- https://www.digitalocean.com/community/tutorials/java-httpurlconnection-example-java-http-request-get-post
+- https://stackoverflow.com/questions/76031419/class-file-has-wrong-version-61-0-should-be-52-0/76539648
+- https://stackoverflow.com/questions/15758685/how-to-write-logs-in-text-file-when-using-java-util-logging-logger
 
 ## Environment Variables file (.env)
 
@@ -51,4 +55,5 @@ export JAVA_LOG_PATH={PATH FOR ERROR LOG}
 ```
 
 ## @TODOS:
-- Check DB Entries for legacy consistency
+- Check DB Entries for legacy consistency.
+- Code Coverage.

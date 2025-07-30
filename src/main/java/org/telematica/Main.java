@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.logging.Level;
 
 public class Main {
-
     public static void main(String[] args) throws RuntimeException {
         try {
             Log.setUpCustomLogger();

@@ -10,6 +10,7 @@ import org.telematica.utils.Log;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.logging.Level;
 
 public class BotNotifier {
@@ -38,7 +39,7 @@ public class BotNotifier {
             String vid = "";
 
             try {
-                var ytliveData = LiveStreamPageScrapper.scrap(id);
+                Object[] ytliveData = LiveStreamPageScrapper.scrap(id);
 
                 // Channel not live
                 if (Objects.equals(ytliveData[1], false)) {
@@ -110,7 +111,7 @@ public class BotNotifier {
                         AppConstants.CONSOLE.SERVER_ERROR,
                         new Object[]{null,null,null,null,null,null, null},
                         new Object[]{id, channelName},
-                        e.getMessage().describeConstable()
+                        Optional.ofNullable(e.getMessage())
                 );
             }
             if (!vid.isEmpty()) {
@@ -135,7 +136,7 @@ public class BotNotifier {
             String id = channel.getKey();
             String channelName = channel.getValue();
             try {
-                var values = UserChannelScrapper.scrap("@" + id);
+                Object[] values = UserChannelScrapper.scrap("@" + id);
                 System.out.print(channelName + " : ");
                 for (Object value : values) {
                     System.out.print(value + " --- ");
