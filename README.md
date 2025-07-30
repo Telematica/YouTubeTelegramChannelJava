@@ -41,6 +41,8 @@
 - https://www.digitalocean.com/community/tutorials/java-httpurlconnection-example-java-http-request-get-post
 - https://stackoverflow.com/questions/76031419/class-file-has-wrong-version-61-0-should-be-52-0/76539648
 - https://stackoverflow.com/questions/15758685/how-to-write-logs-in-text-file-when-using-java-util-logging-logger
+- https://stackoverflow.com/questions/28567208/how-can-i-change-the-standard-out-to-utf-8-in-java
+- https://stackoverflow.com/questions/18759199/java-utf-8-encoding-not-working-httpurlconnection
 
 ## Environment Variables file (.env)
 
