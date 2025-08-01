@@ -13,6 +13,7 @@ public class Main {
             SystemSettings.initSettings();
             Log.setUpCustomLogger();
             Notifier.execute();
+            System.exit(0);
         } catch (Exception e) {
             Log.LOGGER.log(
                     Level.SEVERE,

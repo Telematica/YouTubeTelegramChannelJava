@@ -1,5 +1,5 @@
 #!/bin/zsh
-export PID=0
+export PID=76249
 
 if ps -p $PID > /dev/null
     then
