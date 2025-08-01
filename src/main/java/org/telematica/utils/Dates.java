@@ -6,7 +6,7 @@ public class Dates {
     public static String getYearMonthDayString() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
+        int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DATE);
         return (year + String.format("-%02d", month) + String.format("-%02d", day));
     }
