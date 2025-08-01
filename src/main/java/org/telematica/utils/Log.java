@@ -36,7 +36,7 @@ public class Log {
             logger.setLevel(Level.INFO); // Set the logging level
             // @todo: Rotate files
             // FileHandler fh = new FileHandler("mylogfile.%g.log", 1024 * 1024, 10);
-
+            logger.setUseParentHandlers(false); // this stops logger to write on the console
             Log.LOGGER = logger;
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -43,6 +43,7 @@
 - https://stackoverflow.com/questions/15758685/how-to-write-logs-in-text-file-when-using-java-util-logging-logger
 - https://stackoverflow.com/questions/28567208/how-can-i-change-the-standard-out-to-utf-8-in-java
 - https://stackoverflow.com/questions/18759199/java-utf-8-encoding-not-working-httpurlconnection
+- https://stackoverflow.com/questions/2533227/how-can-i-disable-the-default-console-handler-while-using-the-java-logging-api
 
 ## Environment Variables file (.env)
 
@@ -54,6 +55,14 @@ export JAVA_TELEGRAM_TIKTOK_CHANNEL={TELEGRAM CHANNEL OR GROUP FOR NOTIFICATIONS
 export JAVA_TIKTOK_COOKIE={BROWSER COOKIE}
 export JAVA_SQLITE_DB={SQLITE DB ABSOLUTE PATH}
 export JAVA_LOG_PATH={PATH FOR ERROR LOG}
+```
+
+## Crontab
+
+```sh
+# Sample
+* * * * * . /path/to/YouTubeTelegramChannelJava/scripts/cron.sh
+0 0,8,16 * * * cd /path/to/YouTubeTelegramChannelJava/scripts/ && zsh backup-db.sh
 ```
 
 ## @TODOS:

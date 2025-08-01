@@ -1,5 +1,6 @@
 package org.telematica;
 
+import org.telematica.bot.Notifier;
 import org.telematica.utils.Log;
 import org.telematica.utils.SystemSettings;
 
@@ -11,9 +12,13 @@ public class Main {
         try {
             SystemSettings.initSettings();
             Log.setUpCustomLogger();
-            BotNotifier.execute();
+            Notifier.execute();
         } catch (Exception e) {
-            Log.LOGGER.log(Level.SEVERE, Arrays.toString(e.getStackTrace()), e);
+            Log.LOGGER.log(
+                    Level.SEVERE,
+                    Arrays.toString(e.getStackTrace()),
+                    e
+            );
         }
     }
 }
