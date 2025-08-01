@@ -69,3 +69,6 @@ build/
 
 ### Custom Logs ###
 logs/
+
+### Env variables ###
+scripts/envvars.sh

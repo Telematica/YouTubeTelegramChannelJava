@@ -65,6 +65,10 @@ export JAVA_LOG_PATH={PATH FOR ERROR LOG}
 0 0,8,16 * * * cd /path/to/YouTubeTelegramChannelJava/scripts/ && zsh backup-db.sh
 ```
 
+## Deployment Steps
+  1) Set env variables values (see above) in scripts/envvars.sh
+  2) Create your crontab (see above)
+
 ## @TODOS:
 - Check DB Entries for legacy consistency.
 - Code Coverage.
