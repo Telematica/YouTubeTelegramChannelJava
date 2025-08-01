@@ -17,11 +17,11 @@ function backup() {
     TYPE=$(echo $1)
     if [ $TYPE = "plain" ]
         then
-            sqlite3 $SQLITE_DB_PATH < $HOME/YouTubeTelegramChannelJava/src/main/resources/sql/clean-log.sql
+            sqlite3 $SQLITE_DB_PATH < $HOME/YouTubeTelegramChannelJava/src/main/resources/database/clean-log.sql
             sqlite3 $SQLITE_DB_PATH ".backup '$SQLITE_DB_BACKUP_PATH'"
     elif [ $TYPE = "vacuum" ]
         then
-            sqlite3 $SQLITE_DB_PATH < $HOME/YouTubeTelegramChannelJava/src/main/resources/sql/clean-log.sql
+            sqlite3 $SQLITE_DB_PATH < $HOME/YouTubeTelegramChannelJava/src/main/resources/database/sql/clean-log.sql
             rm $SQLITE_DB_BACKUP_PATH
             sqlite3 $SQLITE_DB_PATH "VACUUM INTO '$SQLITE_DB_BACKUP_PATH'"
     else
@@ -32,4 +32,4 @@ function backup() {
     return 0
 }
 
-backup "vacuum" && cd $HOME/YouTubeTelegramChannelJava/ && git add src/db/db.backup.sqlite && git commit -m "DB Backup." && git push origin master
+backup "vacuum" && cd $HOME/YouTubeTelegramChannelJava/ && git add src/main/resources/database/sqlite/db.backup.sqlite && git commit -m "DB Backup." && git push origin main
