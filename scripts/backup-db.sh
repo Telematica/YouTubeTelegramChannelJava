@@ -32,4 +32,4 @@ function backup() {
     return 0
 }
 
-backup "vacuum" && cd $HOME/YouTubeTelegramChannelJava/ && git add src/main/resources/database/sqlite/db.backup.sqlite && git commit -m "DB Backup." && git push origin main
+backup "vacuum" && cd $HOME/YouTubeTelegramChannelJava/ && git add src/main/resources/database/sqlite/db.backup.sqlite && git commit -m "chore(): DB Backup." && git push origin main
