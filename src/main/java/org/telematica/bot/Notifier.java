@@ -1,20 +1,24 @@
 package org.telematica.bot;
 
-import org.telematica.utils.Database;
-import org.telematica.constants.AppConstants;
-import org.telematica.requests.platforms.telegram.SendMessageRequest;
-import org.telematica.scrappers.platforms.tiktok.UserChannelScrapper;
-import org.telematica.scrappers.platforms.youtube.LiveStreamPageScrapper;
-import org.telematica.utils.ConsoleMessages;
-import org.telematica.utils.Log;
-
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Level;
 
+import org.telematica.constants.AppConstants;
+import org.telematica.requests.platforms.telegram.SendMessageRequest;
+import org.telematica.scrappers.platforms.tiktok.UserChannelScrapper;
+import org.telematica.scrappers.platforms.youtube.LiveStreamPageScrapper;
+import org.telematica.utils.ConsoleMessages;
+import org.telematica.utils.ConsoleTable;
+import org.telematica.utils.Database;
+import org.telematica.utils.Log;
+
 public class Notifier {
+    private static final ArrayList<Object[]> entries = new ArrayList<>();
+    
     public static void execute() throws SQLException {
         Database.transactional(() -> {
             Notifier.youtubeBatch();
@@ -38,6 +42,7 @@ public class Notifier {
             String channelName = channel.getValue()[0];
             boolean disableNotification = Boolean.parseBoolean(channel.getValue()[1]);
             String vid = "";
+            boolean isLive = false;
 
             try {
                 Object[] liveData = LiveStreamPageScrapper.scrap(id);
@@ -55,6 +60,7 @@ public class Notifier {
                     // Channel Live
                     vid = liveData[4].toString();
                     String video = Database.getYouTubeLiveById(vid);
+                    isLive = true;
 
                     // Live is not yet notified
                     if (video == null) {
@@ -118,7 +124,15 @@ public class Notifier {
             if (!vid.isEmpty()) {
                 System.out.print("Link: " + "https://youtu.be/" + vid + " --- ");
             }
-            System.out.println(message);
+            
+            entries.add(new Object[]{
+                AppConstants.PLATFORMS.YOUTUBE.toString(),
+                channelName,
+                isLive,
+                !"".equals(vid) ? "https://youtu.be/" + vid : "Not available"
+            });
+            ConsoleTable.renderTable(Notifier.entries);
+            // System.out.println(message);
             System.gc();
         }
     }
@@ -139,10 +153,11 @@ public class Notifier {
             String channelName = channel.getValue()[0];
             String uniqueId = channel.getValue()[1];
             String roomId = "";
+            boolean isLive = false;
 
             try {
                 Object[] liveData = UserChannelScrapper.scrap("@" + uniqueId);
-                boolean isLive = (boolean) liveData[2];
+                isLive = (boolean) liveData[2];
 
                 if (!isLive) {
                     message = ConsoleMessages.getMessage(
@@ -220,7 +235,15 @@ public class Notifier {
             if (!roomId.isEmpty()) {
                 System.out.print("Link: " + "https://tiktok.com/@" + channelName + "/live");
             }
-            System.out.println(message);
+
+            entries.add(new Object[]{
+                AppConstants.PLATFORMS.TIKTOK.toString(),
+                channelName,
+                isLive,
+                isLive ? "https://tiktok.com/@" + channelName + "/live" : "Not available"
+            });
+            ConsoleTable.renderTable(Notifier.entries);
+            // System.out.println(message);
             System.gc();
         }
     }

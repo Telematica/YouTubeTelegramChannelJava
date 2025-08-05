@@ -44,6 +44,11 @@
 - https://stackoverflow.com/questions/28567208/how-can-i-change-the-standard-out-to-utf-8-in-java
 - https://stackoverflow.com/questions/18759199/java-utf-8-encoding-not-working-httpurlconnection
 - https://stackoverflow.com/questions/2533227/how-can-i-disable-the-default-console-handler-while-using-the-java-logging-api
+- https://stackoverflow.com/questions/151026/how-do-i-unlock-an-sqlite-database
+- https://stackoverflow.com/questions/2979383/how-to-clear-the-console-using-java
+- https://www.baeldung.com/java-console-ascii-make-table
+- https://www.baeldung.com/java-format-output-table-system-out
+- https://stackoverflow.com/questions/2979383/how-to-clear-the-console-using-java
 
 ## Environment Variables file (.env)
 
