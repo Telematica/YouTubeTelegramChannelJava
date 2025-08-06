@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Level;
 
+import org.telematica.Main;
 import org.telematica.constants.AppConstants;
 import org.telematica.requests.platforms.telegram.SendMessageRequest;
 import org.telematica.scrappers.platforms.tiktok.UserChannelScrapper;
@@ -121,9 +122,6 @@ public class Notifier {
                         Optional.ofNullable(e.getMessage())
                 );
             }
-            if (!vid.isEmpty()) {
-                System.out.print("Link: " + "https://youtu.be/" + vid + " --- ");
-            }
             
             entries.add(new Object[]{
                 AppConstants.PLATFORMS.YOUTUBE.toString(),
@@ -131,8 +129,18 @@ public class Notifier {
                 isLive,
                 !"".equals(vid) ? "https://youtu.be/" + vid : "Not available"
             });
-            ConsoleTable.renderTable(Notifier.entries);
-            // System.out.println(message);
+
+            if (!Main.quiet) {
+                if (Main.printAsTable) {
+                    ConsoleTable.renderTable(Notifier.entries);
+                } else {
+                    if (!vid.isEmpty()) {
+                        System.out.print("Link: " + "https://youtu.be/" + vid + " --- ");
+                    }
+                    System.out.println(message);
+                }
+            }
+
             System.gc();
         }
     }
@@ -176,7 +184,7 @@ public class Notifier {
                     if (room == null) {
                         String liveSince = liveData[3].toString();
                         String title = liveData[4].toString();
-                        String viewCount = liveData[5].toString();
+                        // String viewCount = liveData[5].toString();
                         message = ConsoleMessages.getMessage(
                                 AppConstants.PLATFORMS.TIKTOK,
                                 AppConstants.CONSOLE.NOTIFIED,
@@ -232,18 +240,24 @@ public class Notifier {
                         Optional.ofNullable(e.getMessage())
                 );
             }
-            if (!roomId.isEmpty()) {
-                System.out.print("Link: " + "https://tiktok.com/@" + channelName + "/live");
-            }
-
             entries.add(new Object[]{
                 AppConstants.PLATFORMS.TIKTOK.toString(),
                 channelName,
                 isLive,
                 isLive ? "https://tiktok.com/@" + channelName + "/live" : "Not available"
             });
-            ConsoleTable.renderTable(Notifier.entries);
-            // System.out.println(message);
+
+            if (!Main.quiet) {
+                if (Main.printAsTable) {
+                    ConsoleTable.renderTable(Notifier.entries);
+                } else {
+                    if (!roomId.isEmpty()) {
+                        System.out.print("Link: " + "https://tiktok.com/@" + channelName + "/live");
+                    }
+                    System.out.println(message);
+                }
+            }
+
             System.gc();
         }
     }
