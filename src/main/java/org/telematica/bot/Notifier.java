@@ -205,7 +205,7 @@ public class Notifier {
                         );
                         Database.createTikTokLogEntry("2", id);
                         SendMessageRequest.send(
-                                AppConstants.TELEGRAM_CHANNEL_OR_GROUP,
+                                AppConstants.TELEGRAM_CHANNEL_TIKTOK,
                                 ConsoleMessages.getMessage(
                                         AppConstants.PLATFORMS.TIKTOK,
                                         AppConstants.CONSOLE.TELEGRAM_MESSAGE,
