@@ -29,13 +29,16 @@ public class ConsoleMessages {
                     message = "¡Transmisión Notificada! : " + vid + " - " + channelName + " " + channelId;
                     break;
                 case NOT_LIVE:
-                    message = "El Canal no está en vivo: " + channelName + " : " + channelId + " - " + "Programado para: " + scheduledStartTime;
+                    message = "El Canal no está en vivo: " + channelName + " : " + channelId + " - "
+                            + "Programado para: " + scheduledStartTime;
                     break;
                 case SERVER_ERROR:
-                    message = "¡Hubo un Error en la Petición al Canal! " + (liveRequestError.orElse("Unexpected error."));
+                    message = Response.CHANNEL_ERROR.getDescription() + " "
+                            + (liveRequestError.orElse("Unexpected error."));
                     break;
                 case TELEGRAM_MESSAGE:
-                    message = "🔴 ¡" + channelName + " está transmitiendo En Vivo! \n\n 🔗 Entra a: http://youtu.be/" + vid +"\n\n 🕒 " + liveSince + "\n\n 👥 Espectadores: " + viewCount;
+                    message = "🔴 ¡" + channelName + " está transmitiendo En Vivo! \n\n 🔗 Entra a: http://youtu.be/"
+                            + vid +"\n\n 🕒 " + liveSince + "\n\n 👥 Espectadores: " + viewCount;
                     break;
             };
         } else if (Objects.equals(PLATFORMS.TIKTOK, platform)) {
@@ -53,10 +56,11 @@ public class ConsoleMessages {
                     message = "El Canal no está en vivo: " + uniqueId + " - ";
                     break;
                 case SERVER_ERROR:
-                    message = "¡Hubo un Error en la Petición al Canal! " + liveRequestError;
+                    message = Response.CHANNEL_ERROR.getDescription() + " " + liveRequestError;
                     break;
                 case TELEGRAM_MESSAGE:
-                    message = "🔴 ¡" + nickname + "está transmitiendo En Vivo! \n\n 🔗 Entra a: https://tiktok.com/@" + uniqueId +"\n\n 🕒 Comenzó a transmitir: (?) \n\n 👥 Espectadores: (?)";
+                    message = "🔴 ¡" + nickname + "está transmitiendo En Vivo! \n\n 🔗 Entra a: https://tiktok.com/@"
+                            + uniqueId +"\n\n 🕒 Comenzó a transmitir: (?) \n\n 👥 Espectadores: (?)";
                     break;
             };
         }

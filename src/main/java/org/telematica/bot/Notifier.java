@@ -41,7 +41,7 @@ public class Notifier {
         for (Map.Entry<String, String[]> channel : ytChannels.entrySet()) {
             String id = channel.getKey();
             String channelName = channel.getValue()[0];
-            boolean disableNotification = Boolean.parseBoolean(channel.getValue()[1]);
+            boolean disableNotification = Objects.equals(channel.getValue()[1], "0") ? Boolean.FALSE: Boolean.TRUE;
             String vid = "";
             boolean isLive = false;
 
