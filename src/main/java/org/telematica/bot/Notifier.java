@@ -210,7 +210,7 @@ public class Notifier {
                                         AppConstants.PLATFORMS.TIKTOK,
                                         AppConstants.CONSOLE.TELEGRAM_MESSAGE,
                                         liveData,
-                                        new Object[]{id, channelName},
+                                        new Object[]{id, uniqueId},
                                         java.util.Optional.empty()
                                 ),
                                 false

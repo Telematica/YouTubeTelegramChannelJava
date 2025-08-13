@@ -6,6 +6,7 @@ import java.util.Optional;
 import static org.telematica.constants.AppConstants.*;
 
 public class ConsoleMessages {
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public static String getMessage(
             PLATFORMS platform,
             CONSOLE type,
@@ -60,7 +61,7 @@ public class ConsoleMessages {
                     break;
                 case TELEGRAM_MESSAGE:
                     message = "🔴 ¡" + nickname + "está transmitiendo En Vivo! \n\n 🔗 Entra a: https://tiktok.com/@"
-                            + uniqueId +"\n\n 🕒 Comenzó a transmitir: (?) \n\n 👥 Espectadores: (?)";
+                            + uniqueId + "/live" +"\n\n 🕒 Comenzó a transmitir: (?) \n\n 👥 Espectadores: (?)";
                     break;
             };
         }
