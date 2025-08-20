@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS [main].channel (
   created_at DATETIME NOT NULL DEFAULT (datetime('now', 'localtime')),
   updated_at DATETIME NOT NULL DEFAULT (datetime('now', 'localtime')),
   deleted_at DATETIME NULL DEFAULT NULL
-);
+) STRICT;
 CREATE TABLE IF NOT EXISTS [main].live (
   vid TEXT NOT NULL PRIMARY KEY,
   channel_id TEXT NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS [main].live (
   updated_at DATETIME NOT NULL DEFAULT (datetime('now', 'localtime')),
   deleted_at DATETIME NULL DEFAULT NULL,
   FOREIGN KEY(channel_id) REFERENCES channel(id)
-);
+) STRICT;
 CREATE TABLE IF NOT EXISTS [main].log_entry (
   id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   log_status_id INTEGER NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS [main].log_entry (
   deleted_at DATETIME NULL DEFAULT NULL,
   FOREIGN KEY(log_status_id) REFERENCES log_status(id),
   FOREIGN KEY(channel_id) REFERENCES channel(id)
-);
+) STRICT;
 CREATE TABLE IF NOT EXISTS [main].tiktok_user (
   id TEXT NOT NULL PRIMARY KEY,
   nickname TEXT NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS [main].tiktok_user (
   created_at DATETIME NOT NULL DEFAULT (datetime('now', 'localtime')),
   updated_at DATETIME NOT NULL DEFAULT (datetime('now', 'localtime')),
   deleted_at DATETIME NULL DEFAULT NULL
-);
+) STRICT;
 CREATE TABLE IF NOT EXISTS [main].tiktok_live (
   room_id TEXT NOT NULL PRIMARY KEY,
   tiktok_user_id TEXT NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS [main].tiktok_live (
   updated_at DATETIME NOT NULL DEFAULT (datetime('now', 'localtime')),
   deleted_at DATETIME NULL DEFAULT NULL,
   FOREIGN KEY(tiktok_user_id) REFERENCES tiktok_user(id)
-);
+) STRICT;
 CREATE TABLE IF NOT EXISTS [main].tiktok_log_entry (
   id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   log_status_id INTEGER NOT NULL,
@@ -65,10 +65,10 @@ CREATE TABLE IF NOT EXISTS [main].tiktok_log_entry (
   deleted_at DATETIME NULL DEFAULT NULL,
   FOREIGN KEY(log_status_id) REFERENCES log_status(id),
   FOREIGN KEY(tiktok_user_id) REFERENCES tiktok_user(id)
-);
+) STRICT;
 CREATE TABLE IF NOT EXISTS [main].log_status (
   id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   type TEXT DEFAULT NULL,
   status TEXT NOT NULL,
   code TEXT NOT NULL
-);
+) STRICT;

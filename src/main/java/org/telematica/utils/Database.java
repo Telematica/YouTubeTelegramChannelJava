@@ -13,7 +13,7 @@ public class Database {
 
     public static void connect() throws SQLException, ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
-        String url = "jdbc:sqlite:" + System.getenv("JAVA_SQLITE_DB");
+        String url = "jdbc:sqlite:" + System.getenv("JAVA_SQLITE_DB") + "?journal_mode=WAL&synchronous=NORMAL&foreign_keys=ON";
         Database.connection = DriverManager.getConnection(url);
         System.out.println(CONNECTED_MESSAGE);
     }
@@ -28,8 +28,9 @@ public class Database {
             System.out.println(e.getMessage());
             Database.connection.rollback();
             throw new RuntimeException(e);
+        } finally {
+            Database.connection.close();
         }
-        Database.connection.close();
     }
 
     public static Map<String, String[]> getAllTiktokUsers() throws SQLException {

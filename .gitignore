@@ -72,3 +72,4 @@ logs/
 
 ### Env variables ###
 scripts/envvars.sh
+scripts/*.sh.bak
