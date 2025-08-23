@@ -49,6 +49,8 @@
 - https://www.baeldung.com/java-console-ascii-make-table
 - https://www.baeldung.com/java-format-output-table-system-out
 - https://stackoverflow.com/questions/2979383/how-to-clear-the-console-using-java
+- https://stackoverflow.com/questions/7939257/wait-until-all-threads-finish-their-work-in-java
+- https://stackoverflow.com/questions/5853167/runnable-with-a-parameter
 
 ## Environment Variables file (.env)
 
