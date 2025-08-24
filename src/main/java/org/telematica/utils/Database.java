@@ -1,5 +1,7 @@
 package org.telematica.utils;
 
+import org.telematica.Main;
+
 import java.sql.*;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -15,7 +17,9 @@ public class Database {
         Class.forName("org.sqlite.JDBC");
         String url = "jdbc:sqlite:" + System.getenv("JAVA_SQLITE_DB") + "?journal_mode=WAL&synchronous=NORMAL&foreign_keys=ON";
         Database.connection = DriverManager.getConnection(url);
-        System.out.println(CONNECTED_MESSAGE);
+        if (!Main.quiet) {
+            System.out.println(CONNECTED_MESSAGE);
+        }
     }
 
     public static void transactional(Runnable fn) throws SQLException {
@@ -25,7 +29,9 @@ public class Database {
             fn.run();
             Database.connection.commit();
         } catch (RuntimeException | ClassNotFoundException | SQLException e) {
-            System.out.println(e.getMessage());
+            if (!Main.quiet) {
+                System.out.println(e.getMessage());
+            }
             Database.connection.rollback();
             throw new RuntimeException(e);
         } finally {

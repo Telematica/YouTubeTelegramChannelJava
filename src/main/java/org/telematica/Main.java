@@ -26,6 +26,8 @@ public class Main {
             if (!Main.quiet) {
                 System.out.println("Starting at: " + new Date());
                 System.out.println("Processing...");
+            } else {
+                System.out.println("Quiet mode enable, no console output available.");
             }
             if (Main.multiThread) {
                 NotifierEnhanced.execute();
