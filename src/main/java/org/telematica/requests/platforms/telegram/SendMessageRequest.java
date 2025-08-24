@@ -13,7 +13,7 @@ public class SendMessageRequest {
             Map<String, Object> params = new HashMap<>();
             params.put("chat_id", chatId);
             params.put("text", text);
-            params.put("disableNotification", disableNotification);
+            params.put("disable_notification", disableNotification);
             String queryParams = org.telematica.utils.Uri.toQueryParam(params);
             URL url = new URL(
                     AppConstants.TELEGRAM_API_URL + AppConstants.API_TOKEN + "/sendMessage" + "?" + queryParams

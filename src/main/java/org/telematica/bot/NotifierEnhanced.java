@@ -88,9 +88,12 @@ public class NotifierEnhanced {
     }
 
     public static synchronized void execute() throws SQLException, InterruptedException {
-        boolean scrapingDone = NotifierEnhanced.youtubeScrapBatch(); // Scraps the channel pages
-        boolean dbLogsDone = NotifierEnhanced.youtubeDbLogsBatch(); // Logs scrapping results
-        boolean notificationsDone = NotifierEnhanced.youtubeNotificationBatch(); // Notifies on Telegram
+        boolean scrapingDone;
+        boolean dbLogsDone;
+        boolean notificationsDone;
+        scrapingDone = NotifierEnhanced.youtubeScrapBatch();
+        dbLogsDone = NotifierEnhanced.youtubeDbLogsBatch(); // Logs scrapping results
+        notificationsDone = NotifierEnhanced.youtubeNotificationBatch(); // Notifies on Telegram
         if (!Main.quiet) {
             System.out.println("Scrap task done: " + (scrapingDone ? "✅" : "❌"));
             System.out.println("Database logs done: " + (dbLogsDone ? "✅" : "❌"));
