@@ -8,10 +8,11 @@ public class ConsoleTable {
         System.out.print("\033\143");
         System.out.flush();
         // Runtime.getRuntime().exec("clear");
-        System.out.format("┌──────────┬──────────────────────────────────────────────┬───────┬──────────────────────────────┐%n");
-        System.out.format("│ Platform │                 Channel/User                 │ Live? │             Link             │%n");
-        System.out.format("├──────────┼──────────────────────────────────────────────┼───────┼──────────────────────────────┤%n");
-        String leftAlignment = "│ %-8s │ %-44s │ %-4s │ %-28s │%n";
+        System.out.format("┌─────┬──────────┬──────────────────────────────────────────────┬───────┬──────────────────────────────┐%n");
+        System.out.format("│ Row │ Platform │                 Channel/User                 │ Live? │             Link             │%n");
+        System.out.format("├─────┼──────────┼──────────────────────────────────────────────┼───────┼──────────────────────────────┤%n");
+        String leftAlignment = "│ %-3s │ %-8s │ %-44s │ %-4s │ %-28s │%n";
+        int row = 1;
         for(Object[] entry : entries) {
             String platform = (String) entry[0];
             String channelName = (String) entry[1];
@@ -20,19 +21,21 @@ public class ConsoleTable {
             // Truncate channel name and link if they are too long
             // channelName = truncate(channelName, 38);
             // link = truncate(link, 22);
-            System.out.format(leftAlignment, platform, channelName, isLive ? "✅" : "❌", link);
+            System.out.format(leftAlignment, row, platform, channelName, isLive ? "✅" : "❌", link);
+            row++;
         }
-        System.out.format("└──────────┴──────────────────────────────────────────────┴───────┴──────────────────────────────┘%n");
+        System.out.format("└─────┴──────────┴──────────────────────────────────────────────┴───────┴──────────────────────────────┘%n");
     }
 
     public static synchronized void renderTable(List<Object[]> entries) {
         // System.out.print("\033\143");
         System.out.flush();
         // Runtime.getRuntime().exec("clear");
-        System.out.format("┌──────────┬──────────────────────────────────────────────┬───────┬──────────────────────────────┐%n");
-        System.out.format("│ Platform │                 Channel/User                 │ Live? │             Link             │%n");
-        System.out.format("├──────────┼──────────────────────────────────────────────┼───────┼──────────────────────────────┤%n");
-        String leftAlignment = "│ %-8s │ %-44s │ %-4s │ %-28s │%n";
+        System.out.format("┌─────┬──────────┬──────────────────────────────────────────────┬───────┬──────────────────────────────┐%n");
+        System.out.format("│ Row │ Platform │                 Channel/User                 │ Live? │             Link             │%n");
+        System.out.format("├─────┼──────────┼──────────────────────────────────────────────┼───────┼──────────────────────────────┤%n");
+        String leftAlignment = "│ %-3s │ %-8s │ %-44s │ %-4s │ %-28s │%n";
+        int row = 1;
         for(Object[] entry : entries) {
             Object[] channel = (Object[]) entry[1];
             Object[] liveData = (Object[]) entry[2];
@@ -43,9 +46,10 @@ public class ConsoleTable {
             // Truncate channel name and link if they are too long
             // channelName = truncate(channelName, 38);
             // link = truncate(link, 22);
-            System.out.format(leftAlignment, platform, channelName, isLive ? "✅" : "❌", link);
+            System.out.format(leftAlignment, row, platform, channelName, isLive ? "✅" : "❌", link);
+            row++;
         }
-        System.out.format("└──────────┴──────────────────────────────────────────────┴───────┴──────────────────────────────┘%n");
+        System.out.format("└─────┴──────────┴──────────────────────────────────────────────┴───────┴──────────────────────────────┘%n");
     }
 
     private static String truncate(String text, int maxWidth) {

@@ -37,7 +37,9 @@ public class NotifierEnhanced {
             } catch (Exception e) {
                 // Unexpected error happened
                 liveRequestError = e.getMessage();
-                System.out.println(e.getMessage());
+                if (!Main.quiet) {
+                    System.out.println(e.getMessage());
+                }
                 Log.LOGGER.log(Level.FINE, "YouTube Scrapper error: " + e.getMessage(), e);
             }
             NotifierEnhanced.queue.add(new Object[]{
@@ -76,7 +78,9 @@ public class NotifierEnhanced {
                 sentNotifications.incrementAndGet();
             } catch (Exception e) {
                 // Unexpected error happened
-                System.out.println(e.getMessage());
+                if (!Main.quiet) {
+                    System.out.println(e.getMessage());
+                }
                 Log.LOGGER.log(Level.FINE, "Telegram Notification error: " + e.getMessage(), e);
             }
             System.gc();
@@ -84,19 +88,24 @@ public class NotifierEnhanced {
     }
 
     public static synchronized void execute() throws SQLException, InterruptedException {
-        NotifierEnhanced.youtubeScrapBatch();
-        NotifierEnhanced.youtubeDbLogsBatch();
-        NotifierEnhanced.youtubeNotificationBatch();
-        System.out.println("Notifications sent: " + sentNotifications);
+        boolean scrapingDone = NotifierEnhanced.youtubeScrapBatch(); // Scraps the channel pages
+        boolean dbLogsDone = NotifierEnhanced.youtubeDbLogsBatch(); // Logs scrapping results
+        boolean notificationsDone = NotifierEnhanced.youtubeNotificationBatch(); // Notifies on Telegram
+        if (!Main.quiet) {
+            System.out.println("Scrap task done: " + (scrapingDone ? "✅" : "❌"));
+            System.out.println("Database logs done: " + (dbLogsDone ? "✅" : "❌"));
+            System.out.println("Notifications done: " + (notificationsDone ? "✅" : "❌"));
+            System.out.println("Notifications sent: " + sentNotifications);
+        }
         queue.clear();
+        ytChannels.clear();
     }
 
-    private static synchronized void youtubeDbLogsBatch() throws SQLException {
+    private static synchronized boolean youtubeDbLogsBatch() throws SQLException {
         Database.transactional(() -> {
             Object[] liveData = null;
             String vid = null;
             Object[] channelInfo = null;
-            int index = 0;
             for (Object[] scrapResult : queue) {
                 try {
                     liveData = (Object[]) scrapResult[2];
@@ -134,12 +143,12 @@ public class NotifierEnhanced {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-                index++;
             }
         });
+        return true;
     }
 
-    private static synchronized void youtubeNotificationBatch() throws InterruptedException {
+    private static synchronized boolean youtubeNotificationBatch() throws InterruptedException {
         ExecutorService es = Executors.newFixedThreadPool(cores);
         for (Object[] scrapResult : queue.stream().filter(item -> {
             Object[] liveData = (Object[]) item[2];
@@ -148,10 +157,10 @@ public class NotifierEnhanced {
             es.execute(new RunnableNotificationThread(scrapResult));
         }
         es.shutdown();
-        boolean b = es.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
+        return es.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
     }
 
-    private static synchronized void youtubeScrapBatch() throws InterruptedException {
+    private static synchronized boolean youtubeScrapBatch() throws InterruptedException {
         try {
             Database.transactional(() -> {
                 try {
@@ -161,7 +170,9 @@ public class NotifierEnhanced {
                 }
             });
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            if (!Main.quiet) {
+                System.out.println(e.getMessage());
+            }
             throw new RuntimeException(e);
         }
 
@@ -170,11 +181,12 @@ public class NotifierEnhanced {
             es.execute(new RunnableScrapperThread(channel.getKey()));
         }
         es.shutdown();
-        boolean b = es.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
+        boolean dispatched = es.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
         if (!Main.quiet) {
             if (Main.printAsTable) {
                 ConsoleTable.renderTable(NotifierEnhanced.queue);
             }
         }
+        return dispatched;
     }
 }
