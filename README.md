@@ -77,6 +77,7 @@ export JAVA_LOG_PATH={PATH FOR ERROR LOG}
   2) Create your crontab (see above)
 
 ## @TODOS:
+- Ignore prod db.sqlite file
 - SQLite STRICT table
   - Check INTEGER and non-text fields for data type consistency.
   - https://www.sqlite.org/stricttables.html
