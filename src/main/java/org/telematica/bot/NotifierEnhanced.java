@@ -1,5 +1,19 @@
 package org.telematica.bot;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
+
 import org.telematica.Main;
 import org.telematica.constants.AppConstants;
 import org.telematica.requests.platforms.telegram.SendMessageRequest;
@@ -8,13 +22,6 @@ import org.telematica.utils.ConsoleMessages;
 import org.telematica.utils.ConsoleTable;
 import org.telematica.utils.Database;
 import org.telematica.utils.Log;
-
-import java.sql.SQLException;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
 
 public class NotifierEnhanced {
     private static final int cores = Runtime.getRuntime().availableProcessors();

@@ -19,9 +19,9 @@ function runjar {
 if [ ! -f $ENV_VAR_FILE_PATH ]; then
     echo "<envvars.sh> file not found! Please create it."
     return 1;
-    else
-        source $ENV_VAR_FILE_PATH
 fi
+
+source $ENV_VAR_FILE_PATH
 
 if ps -p $PID > /dev/null
     then

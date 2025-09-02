@@ -1,8 +1,6 @@
 package org.telematica.requests.platforms.tiktok;
 
-import  org.telematica.constants.TikTokConstants;
-
-import java.io.BufferedReader;
+import  java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -11,7 +9,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
+import org.telematica.constants.TikTokConstants;
+
 public class UserChannelRequest {
+    private static final int CONNECTION_TIMEOUT = 5000; // 5 seconds
+    private static final int READ_TIMEOUT = 10000; // 10 seconds
+
     public static String request(String channelId) throws ExecutionException, InterruptedException {
         HttpURLConnection connection = null;
         String channelUrl = TikTokConstants.TIKTOK_URL + "/" + channelId;
@@ -22,6 +25,8 @@ public class UserChannelRequest {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setUseCaches(false);
+            connection.setReadTimeout(CONNECTION_TIMEOUT);
+            connection.setConnectTimeout(READ_TIMEOUT);
 
             for(Map.Entry<String, String> header : TikTokConstants.TIKTOK_LIVE_HEADERS.entrySet()) {
                 connection.setRequestProperty(header.getKey(), header.getValue());

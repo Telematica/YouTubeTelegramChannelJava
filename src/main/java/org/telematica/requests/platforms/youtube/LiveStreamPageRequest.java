@@ -9,9 +9,14 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
-import static org.telematica.constants.YouTubeConstants.*;
+import static org.telematica.constants.YouTubeConstants.YOUTUBE_CHANNEL_URL;
+import static org.telematica.constants.YouTubeConstants.YOUTUBE_REQUEST_HEADERS;
+import static org.telematica.constants.YouTubeConstants.YOUTUBE_URL;
 
 public class LiveStreamPageRequest {
+    private static final int CONNECTION_TIMEOUT = 5000; // 5 seconds
+    private static final int READ_TIMEOUT = 10000; // 10 seconds
+
     public static String request(String channelId) throws ExecutionException, InterruptedException {
         HttpURLConnection connection = null;
         String channelUrl = channelId.startsWith("@")
@@ -25,6 +30,8 @@ public class LiveStreamPageRequest {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setUseCaches(false);
+            connection.setReadTimeout(CONNECTION_TIMEOUT);
+            connection.setConnectTimeout(READ_TIMEOUT);
 
             for(Map.Entry<String, String> header : YOUTUBE_REQUEST_HEADERS.entrySet()) {
                 connection.setRequestProperty(header.getKey(), header.getValue());
