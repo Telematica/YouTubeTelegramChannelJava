@@ -66,6 +66,7 @@ build/
 ### SQLITE ###
 *.sqlite-shm
 *.sqlite-wal
+src/main/resources/database/sqlite/db.sqlite
 
 ### Custom Logs ###
 logs/
